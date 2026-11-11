@@ -113,8 +113,49 @@ public class AuthService {
         return new LoginResponse(token, user.getUsername(), user.getRole(), parishId, parishName);
     }
 
-    public List<AppUser> getPendingApprovals() {
-        return userRepository.findByApprovedFalse();
+    public AppUser getUserByUsername(String username) {
+        return userRepository.findByUsername(username.trim())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                        "User not found or session is invalid."));
+    }
+
+    public Map<String, Object> getCurrentUserProfile(String username) {
+        AppUser user = getUserByUsername(username);
+        Map<String, Object> profile = new LinkedHashMap<>();
+        profile.put("id", user.getId());
+        profile.put("username", user.getUsername());
+        profile.put("role", user.getRole());
+        profile.put("approved", user.isApproved());
+        profile.put("parishId", user.getParishId());
+
+        if (user.getParishId() != null) {
+            Parish parish = parishRepository.findById(user.getParishId()).orElse(null);
+            if (parish != null) {
+                Map<String, Object> parishMap = new LinkedHashMap<>();
+                parishMap.put("id", parish.getId());
+                parishMap.put("name", parish.getName());
+                profile.put("parish", parishMap);
+            }
+        }
+
+        return profile;
+    }
+
+    public List<Map<String, Object>> getPendingApprovals() {
+        return userRepository.findByApprovedFalse().stream()
+                .map(user -> {
+                    Map<String, Object> item = new LinkedHashMap<>();
+                    item.put("id", user.getId());
+                    item.put("username", user.getUsername());
+                    item.put("role", user.getRole());
+                    item.put("approved", user.isApproved());
+                    item.put("parishId", user.getParishId());
+                    item.put("parishName", user.getParishId() == null ? null : parishRepository.findById(user.getParishId())
+                            .map(Parish::getName)
+                            .orElse(null));
+                    return item;
+                })
+                .toList();
     }
 
     public AppUser approveAdmin(Long userId) {

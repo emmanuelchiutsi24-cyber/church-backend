@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -53,8 +54,18 @@ public class AuthController {
         return authService.listAvailableParishes();
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<?> currentUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Authentication required."));
+        }
+
+        return ResponseEntity.ok(authService.getCurrentUserProfile(authentication.getName()));
+    }
+
     @GetMapping("/pending")
-    public List<AppUser> viewPending() {
+    public List<Map<String, Object>> viewPending() {
         return authService.getPendingApprovals();
     }
 

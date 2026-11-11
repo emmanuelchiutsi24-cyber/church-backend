@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
     private final JwtRequestFilter jwtRequestFilter;
@@ -76,6 +78,7 @@ public class SecurityConfig {
                 // ─── Auth (login / register) ─────────────────────────
                 .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/auth/parishes").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/auth/me").authenticated()
 
                 // ─── System-admin account management ─────────────────
                 .requestMatchers("/api/system-admin/**")
@@ -86,8 +89,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/deaneries", "/api/deaneries/**",
                         "/api/parishes", "/api/parishes/**", "/api/priests", "/api/priests/**")
                     .hasAuthority("ROLE_SYSTEM_ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/parishes", "/api/parishes/**")
+                    .hasAnyAuthority("ROLE_SYSTEM_ADMIN", "ROLE_ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/deaneries", "/api/deaneries/**",
-                        "/api/parishes", "/api/parishes/**", "/api/priests", "/api/priests/**",
+                        "/api/priests", "/api/priests/**",
                         "/api/mass-times/**", "/api/deanery-events/**")
                     .hasAuthority("ROLE_SYSTEM_ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/deaneries", "/api/deaneries/**",
