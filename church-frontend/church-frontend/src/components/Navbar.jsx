@@ -19,6 +19,10 @@ function NavigationBar() {
 
         <Navbar.Collapse id="navbar-nav">
           <Nav className="align-items-lg-center ms-auto navbar-shell">
+            <NavLink to="/parishes" className={({ isActive }) => `nav-link-item ${isActive ? "active" : ""}`}>
+              Parishes
+            </NavLink>
+
             <NavLink to="/deaneries" className={({ isActive }) => `nav-link-item ${isActive ? "active" : ""}`}>
               Deaneries
             </NavLink>

@@ -1355,6 +1355,154 @@ p {
   cursor: pointer;
 }
 
+.parish-directory__hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0d47a1 0%, #0a2d63 38%, #142d5c 100%);
+  color: #fff;
+}
+
+.parish-directory__hero-glow {
+  position: absolute;
+  inset: auto -120px -180px auto;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.28), rgba(212, 175, 55, 0) 62%);
+  pointer-events: none;
+}
+
+.parish-directory__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.parish-directory__stats > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 110px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  padding: 1rem 0.6rem;
+}
+
+.parish-directory__stats strong {
+  font-size: clamp(1.2rem, 2vw, 1.9rem);
+  color: var(--brand-gold-soft);
+}
+
+.parish-directory__stats small {
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+}
+
+.parish-directory__toolbar {
+  margin-bottom: 2rem;
+}
+
+.parish-directory__search {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  max-width: 680px;
+  padding: 0.45rem 0.9rem 0.45rem 1rem;
+  border: 1px solid rgba(13, 71, 161, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 38px rgba(11, 31, 64, 0.08);
+}
+
+.parish-directory__search svg {
+  color: var(--brand-muted);
+  font-size: 1rem;
+}
+
+.parish-directory__search .form-control {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 0.9rem;
+  color: var(--brand-ink);
+}
+
+.parish-directory__search .form-control::placeholder {
+  color: rgba(24, 35, 50, 0.5);
+}
+
+.parish-directory__card {
+  border-radius: 22px !important;
+  overflow: hidden;
+  border: 1px solid rgba(13, 71, 161, 0.08) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.parish-directory__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 40px rgba(9, 27, 61, 0.12) !important;
+}
+
+.parish-directory__card .card-body {
+  padding: 1.4rem 1.3rem 1.25rem;
+}
+
+.parish-directory__card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.parish-directory__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(13, 71, 161, 0.1), rgba(212, 175, 55, 0.18));
+  color: var(--brand-blue);
+  font-size: 1.2rem;
+}
+
+.parish-directory__name {
+  margin: 0 0 0.9rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--brand-ink);
+  letter-spacing: -0.03em;
+}
+
+.parish-directory__meta {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  color: var(--brand-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+}
+
+.parish-directory__meta svg {
+  margin-top: 0.15rem;
+  color: var(--brand-gold);
+  flex-shrink: 0;
+}
+
+.parish-directory__meta span {
+  display: block;
+}
+
 @media (max-width: 991px) {
   .site-header .navbar-collapse {
     margin-top: 0.85rem;
